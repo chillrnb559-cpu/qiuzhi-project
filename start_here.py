@@ -247,6 +247,9 @@ def generate_creative(material):
                     script_path = p
                     break
             
+            # 查找 Logo 路径
+            logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "qiuzhi-restaurant-logo.png")
+            
             if script_path:
                 cmd = [
                     "uv", "run", script_path,
@@ -255,7 +258,15 @@ def generate_creative(material):
                     "--resolution", "1K",
                     "--api-key", api_key
                 ]
-                print(f"   Prompt: {prompt[:60]}...")
+                
+                # 如果 Logo 存在，则加入指令
+                if os.path.exists(logo_path):
+                    print("   检测到品牌 Logo，将自动应用...")
+                    cmd.extend(["-i", logo_path])
+                    # 更新 prompt，指导 AI 如何使用 Logo
+                    cmd[4] = f"根据这段文字描述 '{prompt}' 生成一张图片，并把输入的 Logo 图片优雅地、不突兀地融合到画面的角落（比如右下角），保持整体风格协调。"
+
+                print(f"   Prompt: {cmd[4][:60]}...")
                 print(f"   输出路径: {output_path}")
                 try:
                     result_proc = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
