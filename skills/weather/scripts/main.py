@@ -6,11 +6,24 @@ Real Logic for weather skill - Quizhi Project
 import sys
 import urllib.request
 import urllib.parse
+import json
 
 def get_weather(location):
     print(f"🔍 正在查询 {location} 的天气... (Searching weather for {location}...)")
+    
+    # Simple city to coord map
+    coords = {
+        "beijing": (39.9042, 116.4074),
+        "shanghai": (31.2304, 121.4737),
+        "guangzhou": (23.1291, 113.2644),
+        "shenzhen": (22.5431, 114.0579)
+    }
+    
+    loc_key = location.lower().strip()
+    lat, lon = coords.get(loc_key, (39.9042, 116.4074)) # Default to Beijing
+    
     try:
-        # Use Xray HTTP Proxy (10809) to avoid timeout in Codespace
+        # Use Xray HTTP Proxy (10809)
         proxy_handler = urllib.request.ProxyHandler({
             'http': 'http://127.0.0.1:10809',
             'https': 'http://127.0.0.1:10809'
@@ -18,19 +31,18 @@ def get_weather(location):
         opener = urllib.request.build_opener(proxy_handler)
         urllib.request.install_opener(opener)
 
-        # Use wttr.in for real weather data
-        # ?format=3 for single line or ?m for metric
-        safe_location = urllib.parse.quote(location)
-        url = f"https://wttr.in/{safe_location}?m&lang=zh-cn"
+        # Use Open-Meteo API (Proven to work via proxy)
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
         
-        # We'll get the full ASCII art version for the "wow" factor
-        headers = {'User-Agent': 'curl/7.64.1'}
-        req = urllib.request.Request(url, headers=headers)
-        
-        with urllib.request.urlopen(req, timeout=10) as response:
-            data = response.read().decode('utf-8')
-            print("\n" + "="*60)
-            print(data)
+        with urllib.request.urlopen(url, timeout=10) as response:
+            res_data = json.loads(response.read().decode('utf-8'))
+            cw = res_data.get('current_weather', {})
+            
+            print("\n" + "🌤️" + "="*58)
+            print(f"  地点 (Location): {location.upper()}")
+            print(f"  气温 (Temp):     {cw.get('temperature')} °C")
+            print(f"  风速 (Wind):     {cw.get('windspeed')} km/h")
+            print(f"  时间 (Time):     {cw.get('time')}")
             print("="*60)
             print("\n✅ 查询完成！ (Query complete!)")
     except Exception as e:
