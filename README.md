@@ -9,11 +9,11 @@ The digital brand management and creative generation assembly for Qiuzhi Restaur
 ## 📂 项目组件
 ## 📂 Project Components
 
-### 1. 🎨 [秋芝创意引擎 (Qiuzhi Creative)](./qiuzhi-creative/README.md)
+### 1. 🎨 [秋芝创意引擎 (Qiuzhi Creative)](./quizhi-creative/README.md)
 核心创意生成模块。负责生成营销文案、设计建议及视觉图像。
 The core creative generation module. Responsible for generating marketing copy, design suggestions, and visual images.
 
-### 2. 🍽️ [秋芝餐厅运营 (Qiuzhi Restaurant)](./qiuzhi-restaurant/README.md)
+### 2. 🍽️ [秋芝餐厅运营 (Qiuzhi Restaurant)](./quizhi-restaurant/README.md)
 (子项目) 专注于餐厅日常运营与菜单管理的独立代码库。
 (Sub-project) An independent codebase focused on restaurant daily operations and menu management.
 
