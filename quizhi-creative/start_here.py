@@ -142,13 +142,29 @@ def run_simulator(skill_data):
     print(f"加载工具: {', '.join(skill_data['tools'])}")
     print("\n[系统]: 技能逻辑加载成功。请输入指令进行测试。")
     
+    # Path to the generated script
+    skill_script = f"skills/{skill_data['name'].replace(' ', '_').lower()}/scripts/main.py"
+    
     while True:
         user_in = input("\n👤 测试输入: ").strip()
         if user_in.lower() in ['exit', 'quit', '0']: break
         
-        print("Thinking...", end="", flush=True)
-        import time; time.sleep(1)
-        print(f"\r🤖 [模拟响应]: 基于工具 {skill_data['tools'][0] if skill_data['tools'] else 'None'}，我将为您执行 '{user_in}'。操作完成！")
+        if os.path.exists(skill_script):
+            print(f"🚀 正在调用真实脚本: {skill_script}...")
+            import subprocess
+            try:
+                # Run the actual script and pass user input as argument
+                result = subprocess.run([sys.executable, skill_script, user_in], capture_output=True, text=True)
+                if result.stdout:
+                    print(result.stdout)
+                if result.stderr:
+                    print(f"❌ 脚本错误: {result.stderr}")
+            except Exception as e:
+                print(f"❌ 运行失败: {e}")
+        else:
+            print("Thinking...", end="", flush=True)
+            import time; time.sleep(1)
+            print(f"\r🤖 [模拟响应]: 基于工具 {skill_data['tools'][0] if skill_data['tools'] else 'None'}，我将为您执行 '{user_in}'。操作完成！")
 
     input("\n测试结束，按回车返回...")
 
