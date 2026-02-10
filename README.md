@@ -17,7 +17,7 @@ More than just restaurant management—it's a practical base for exploring the b
 包含技能生成器 (Skill Builder)、概念教学及视觉创意生成工具。
 **Agent Skills Guide & Builder Engine**.
 Includes Skill Builder, concept tutorials, and visual creative generation tools.
-- [查看技能逻辑流 (View Skill Logic Flow)](./quizhi-creative/README.md#📊-逻辑展示-logic-visualization)
+- [查看技能逻辑流 (View Skill Logic Flow)](./quizhi-creative/README.md#-logic-visualization)
 
 ### 2. 🍽️ [秋芝餐厅 (Quizhi Restaurant)](./quizhi-restaurant/README.md)
 **实体运营与应用落地**。

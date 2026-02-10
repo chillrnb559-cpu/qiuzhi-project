@@ -44,7 +44,7 @@ The application is organized into the following clear sections:
 
 ---
 
-## 📊 逻辑展示 (Logic Visualization)
+## 📊 逻辑展示 Logic Visualization
 
 ### 天气技能逻辑流 (Weather Skill Logic Flow)
 ```mermaid
